@@ -27,12 +27,13 @@ public:
    ~Message();
 
    virtual void computeCharge();
-   bool  operator== (const Message & right) const;
+   bool operator== (const Message & right) const;
+
+   friend ostream & operator<< (ostream &, const Message &);
 
 
 
 };
-
 
 
 
@@ -44,6 +45,31 @@ class SmartCarrier
 private:
    string carrierName;
    map <string, vector<Message*> > smartPhone_Accounts;
+
+   void Menu();
+   void getChoice();
+   void listAll();
+   void searchMessage();
+   void eraseMessage();
+   void disconnectAccount();
+   void stopService();
+
+public:
+   SmartCarrier();
+   SmartCarrier(string carrierName);
+   ~SmartCarrier();
+
+   void setCarrierName();
+   string getCarrierName();
+
+   map<string, vector<Message*> > &getSmartPhone_Accounts() const;
+
+   void initalizeMap();
+   void startService();
+
+
+
+
 };
 
 
@@ -59,6 +85,10 @@ public:
    ~TextMessage();
 
    virtual void computeCharge();
+   void setTextMessage();
+   string getTextMessage();
+
+   //friend ostream & operator<< (ostream &, const TextMessage &);
 
 };
 
@@ -75,6 +105,10 @@ public:
    ~VoiceMessage();
 
    virtual void computeCharge();
+   void setVoiceMessage();
+   string getVoiceMessage();
+
+   //friend ostream & operator<< (ostream &, const VoiceMessage &);
 };
 
 
@@ -90,6 +124,10 @@ public:
    ~MediaMessage();
 
    virtual void computeCharge();
+   void setMediaMessage();
+   string getMediaMessage();
+
+   //friend ostream & operator<< (ostream &, const MediaMessage &);
 
 };
 
