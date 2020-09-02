@@ -59,10 +59,10 @@ public:
    SmartCarrier(string carrierName);
    ~SmartCarrier();
 
-   void setCarrierName();
+   void setCarrierName(string carrierName);
    string getCarrierName();
 
-   map<string, vector<Message*> > &getSmartPhone_Accounts() const;
+   const map<string, vector<Message*> > &getSmartPhone_Accounts();
 
    void initalizeMap();
    void startService();
@@ -140,5 +140,91 @@ int main ()
 
 
 }
+
+
+
+
+//------------------class SmartCarrier definition----------------------
+
+SmartCarrier::SmartCarrier():carrierName(""){}
+
+SmartCarrier::SmartCarrier(string carrierName):carrierName(carrierName){}
+
+SmartCarrier::~SmartCarrier()
+{
+
+}
+
+void SmartCarrier::setCarrierName(string carrierName)
+{
+   this->carrierName = carrierName;
+}
+
+
+string SmartCarrier::getCarrierName()
+{
+   return carrierName;
+}
+
+
+const map<string, vector<Message*> > &SmartCarrier::getSmartPhone_Accounts()
+{
+   return smartPhone_Accounts;
+}
+
+
+void SmartCarrier::initalizeMap()
+{
+
+}
+
+
+void SmartCarrier::startService()
+{
+
+}
+
+
+void SmartCarrier::Menu()
+{
+
+}
+
+
+void SmartCarrier::getChoice()
+{
+
+}
+
+
+void SmartCarrier::listAll()
+{
+
+}
+
+
+void SmartCarrier::searchMessage()
+{
+
+}
+
+
+void SmartCarrier::eraseMessage()
+{
+
+}
+
+
+void SmartCarrier::disconnectAccount()
+{
+
+}
+
+
+void SmartCarrier::stopService()
+{
+
+}
+
 
 
