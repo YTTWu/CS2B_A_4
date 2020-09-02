@@ -398,8 +398,11 @@ void SmartCarrier::listAll()
    int text_message_count = 0;
    int voice_message_count = 0;
    int media_message_count = 0;
+   double text_charge = 0;
+   double voice_charge = 0;
+   double media_charge = 0;
    int total_message = 0;
-   int total_charge = 0;
+   double total_charge = 0;
 
 
 
@@ -413,29 +416,34 @@ void SmartCarrier::listAll()
          if((text_Message = dynamic_cast<TextMessage*>(*v_iter)))
          {
             text_message_count++;
+            text_charge = text_Message->computeCharge(text_message_count);
          }
          else if((voice_Message = dynamic_cast<VoiceMessage*>(*v_iter)))
          {
             voice_message_count++;
+            voice_charge += voice_Message->computeCharge(voice_message_count);
          }
          else if((media_Message = dynamic_cast<MediaMessage*>(*v_iter)))
          {
             media_message_count++;
+            media_charge += media_Message->computeCharge(media_message_count);
          }
 
 
       }
 
-      
+
       total_message = text_message_count + voice_message_count + media_message_count;
-      total_charge += text_Message->computeCharge(text_message_count);
-      total_charge += voice_Message->computeCharge(voice_message_count);
-      total_charge += media_Message->computeCharge(media_message_count);
+      total_charge = text_charge + voice_charge + media_charge;
 
 
 
-      cout << total_message << "    " << text_message_count << "    "
-      << voice_message_count << "    " << media_message_count << "    " << total_charge << endl;
+
+
+
+
+      cout << "          " <<total_message << "                " << text_message_count << "        "
+      << voice_message_count << "        " << media_message_count << "        " << total_charge << endl;
 
       total_message = 0;
       total_charge = 0;
@@ -559,7 +567,7 @@ VoiceMessage::~VoiceMessage()
 
 double VoiceMessage::computeCharge(int count)
 {
-   int charge;
+   double charge;
 
    charge = count * 0.015;
 
@@ -596,7 +604,7 @@ MediaMessage::~MediaMessage()
 
 double MediaMessage::computeCharge(int count)
 {
-   int charge;
+   double charge;
 
    charge = count * 0.10;
 
