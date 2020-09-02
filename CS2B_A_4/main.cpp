@@ -85,7 +85,7 @@ public:
    ~TextMessage();
 
    virtual void computeCharge();
-   void setTextMessage();
+   void setTextMessage(string t_m);
    string getTextMessage();
 
    //friend ostream & operator<< (ostream &, const TextMessage &);
@@ -97,16 +97,16 @@ public:
 class VoiceMessage : public Message
 {
 private:
-   string voiceMessage;
+   int voiceMessage;
 
 public:
    VoiceMessage();
-   VoiceMessage(string senderPN, string receiverPN, string voiceMessage);
+   VoiceMessage(string senderPN, string receiverPN, int voiceMessage);
    ~VoiceMessage();
 
    virtual void computeCharge();
-   void setVoiceMessage();
-   string getVoiceMessage();
+   void setVoiceMessage(int v_m);
+   int getVoiceMessage();
 
    //friend ostream & operator<< (ostream &, const VoiceMessage &);
 };
@@ -116,16 +116,16 @@ public:
 class MediaMessage : public Message
 {
 private:
-   string mediaMessage;
+   int mediaMessage;
 
 public:
    MediaMessage();
-   MediaMessage(string senderPN, string receiverPN, string mediaMessage);
+   MediaMessage(string senderPN, string receiverPN, int mediaMessage);
    ~MediaMessage();
 
    virtual void computeCharge();
-   void setMediaMessage();
-   string getMediaMessage();
+   void setMediaMessage(int m_m);
+   int getMediaMessage();
 
    //friend ostream & operator<< (ostream &, const MediaMessage &);
 
@@ -175,13 +175,171 @@ const map<string, vector<Message*> > &SmartCarrier::getSmartPhone_Accounts()
 
 void SmartCarrier::initalizeMap()
 {
+   Message *text_message = NULL;
+   Message *voice_message = NULL;
+   Message *media_message = NULL;
+
+   //650-267-1289
+   text_message = new TextMessage("650-267-1289", "650-345-9001",
+                                 "Do you want to learn how to program in C++?");
+   smartPhone_Accounts["650-267-1289"].push_back(text_message);
+
+   voice_message = new VoiceMessage("650-267-1289", "650-322-865", 178);
+   smartPhone_Accounts["650-267-1289"].push_back(voice_message);
+
+   media_message = new MediaMessage ("650-267-1289", "310-777-8888", 25) ;
+   smartPhone_Accounts["650-267-1289"].push_back (media_message);
+
+
+   // 408-235-1500
+   text_message = new TextMessage("408-235-1500", "555-656-4536", "whats up?");
+   smartPhone_Accounts["408-235-1500"].push_back(text_message);
+
+   text_message = new TextMessage("408-235-1500", "555-656-4536", "Wanna go to watch a movie?");
+   smartPhone_Accounts["408-235-1500"].push_back(text_message);
+
+   text_message = new TextMessage("408-235-1500", "555-656-4536", "What movie do you want to watch?");
+   smartPhone_Accounts["408-235-1500"].push_back(text_message);
+
+   voice_message = new  VoiceMessage ("408-235-1500", "702-838-0812", 100);
+   smartPhone_Accounts ["408-235-1500"].push_back (voice_message);
+
+   voice_message = new  VoiceMessage ("408-235-1500", "702-838-0812", 189);
+   smartPhone_Accounts ["408-235-1500"].push_back (voice_message);
+
+   voice_message = new  VoiceMessage ("408-235-1500", "302-938-0822", 25);
+   smartPhone_Accounts ["408-235-1500"].push_back (voice_message);
+
+   media_message = new MediaMessage ("408-235-1500", "888-345-9803", 60);
+   smartPhone_Accounts ["408-235-1500"].push_back (media_message);
+
+   media_message = new MediaMessage ("408-235-1500", "568-345-9803", 46);
+   smartPhone_Accounts ["408-235-1500"].push_back (media_message);
+
+   media_message = new MediaMessage ("408-235-1500", "568-345-9803", 34);
+   smartPhone_Accounts ["408-235-1500"].push_back (media_message);
+
+   media_message = new MediaMessage ("408-235-1500", "568-345-9803", 86);
+   smartPhone_Accounts ["408-235-1500"].push_back (media_message);
+
+
+   // 650-781-7900
+   text_message = new TextMessage ("650-781-7900", "233-342-4523", "How are you?") ;
+   smartPhone_Accounts ["650-781-7900"].push_back (text_message);
+
+   text_message = new TextMessage ("650-781-7900", "233-342-4523", "Nice!") ;
+   smartPhone_Accounts ["650-781-7900"].push_back (text_message);
+
+   media_message = new MediaMessage ("650-781-7900", "568-345-9803", 10);
+   smartPhone_Accounts ["650-781-7900"].push_back (media_message);
+
+   media_message = new MediaMessage ("650-781-7900", "568-335-6843", 24);
+   smartPhone_Accounts ["650-781-7900"].push_back (media_message);
+
+   media_message = new MediaMessage ("650-781-7900", "568-355-5803", 21);
+   smartPhone_Accounts ["650-781-7900"].push_back (media_message);
+
+   // 415-298-2162
+   voice_message = new VoiceMessage ("415-298-2162", "232-343-5676", 21);
+   smartPhone_Accounts["415-298-2162"].push_back(voice_message);
+
+   media_message = new MediaMessage ("415-298-2162", "342-435-5636", 12);
+   smartPhone_Accounts["415-298-2162"].push_back(media_message);
+
+   //  945-890-5913
+   text_message = NULL;
+   smartPhone_Accounts["945-890-5913"].push_back(text_message); //-----------------------------
+
+   //  408-720-0012
+   text_message = new TextMessage("408-720-0012", "314-246-2563", "What did you have for lunch?");
+   smartPhone_Accounts["408-720-0012"].push_back(text_message);
+
+   voice_message = new VoiceMessage ("408-720-0012", "232-343-5676", 21);
+   smartPhone_Accounts["408-720-0012"].push_back(voice_message);
+
+   voice_message = new VoiceMessage ("408-720-0012", "435-546-2341", 6);
+   smartPhone_Accounts["408-720-0012"].push_back(voice_message);
+
+   voice_message = new VoiceMessage ("408-720-0012", "245-245-5346", 21);
+   smartPhone_Accounts["408-720-0012"].push_back(voice_message);
+
+   voice_message = new VoiceMessage ("408-720-0012", "232-343-5676", 9);
+   smartPhone_Accounts["408-720-0012"].push_back(voice_message);
+
+   //  650-230-9912
+   media_message = new MediaMessage ("650-230-9912", "650-555-333", 230);
+   smartPhone_Accounts["650-230-9912"].push_back(media_message);
+
+   media_message = new MediaMessage ("650-230-9912", "888-343-2542", 123);
+   smartPhone_Accounts["650-230-9912"].push_back(media_message);
+
+   media_message = new MediaMessage ("650-222-4543", "888-343-2542", 12);
+   smartPhone_Accounts["650-230-9912"].push_back(media_message);
+
+   //  408-462-7890
+   text_message = new TextMessage ("408-462-7890", "423-435-3546", "Hello, it's me") ;
+   smartPhone_Accounts ["408-462-7890"].push_back (text_message);
+
+   text_message = new TextMessage ("408-462-7890", "354-356-3563", "I was wondering if after") ;
+   smartPhone_Accounts ["408-462-7890"].push_back (text_message);
+
+   text_message = new TextMessage ("408-462-7890", "354-356-3563", "all these years you'd like to meet") ;
+   smartPhone_Accounts ["408-462-7890"].push_back (text_message);
+
+   text_message = new TextMessage ("408-462-7890", "202-343-5363", "To go over everything") ;
+   smartPhone_Accounts ["408-462-7890"].push_back (text_message);
+
+   voice_message = new VoiceMessage ("408-462-7890", "808-312-4252", 35);
+   smartPhone_Accounts ["408-462-7890"].push_back(voice_message);
+
+   voice_message = new VoiceMessage ("408-462-7890", "808-312-4252", 23);
+   smartPhone_Accounts ["408-462-7890"].push_back(voice_message);
+
+   media_message = new MediaMessage ("408-462-7890", "999-234-5948", 90);
+   smartPhone_Accounts ["408-462-7890"].push_back(media_message);
+
+   media_message = new MediaMessage ("408-462-7890", "808-312-4252", 35);
+   smartPhone_Accounts ["408-462-7890"].push_back(media_message);
+
+   media_message = new MediaMessage ("408-462-7890", "808-312-4252", 32);
+   smartPhone_Accounts ["408-462-7890"].push_back(media_message);
+
+   //  415-902-9581
+   text_message = new TextMessage ("415-902-9581", "423-435-3546", "They say that time's") ;
+   smartPhone_Accounts ["415-902-9581"].push_back (text_message);
+
+   voice_message = new VoiceMessage ("415-902-9581", "808-312-4252", 3);
+   smartPhone_Accounts ["415-902-9581"].push_back(voice_message);
+
+   voice_message = new VoiceMessage ("415-902-9581", "808-312-4252", 6);
+   smartPhone_Accounts ["415-902-9581"].push_back(voice_message);
+
+   media_message = new MediaMessage ("415-902-9581", "808-312-4252", 89);
+   smartPhone_Accounts ["415-902-9581"].push_back(media_message);
+
+   media_message = new MediaMessage ("415-902-9581", "702-989-0876", 23);
+   smartPhone_Accounts ["415-902-9581"].push_back(media_message);
+
+   //  310-290-1666
+   text_message = new TextMessage ("310-290-1666", "999-234-5948", "supposed to heal ya");
+   smartPhone_Accounts ["310-290-1666"].push_back(text_message);
+
+   text_message = new TextMessage ("310-290-1666", "999-234-5948", "But I ain't done much healing");
+   smartPhone_Accounts ["310-290-1666"].push_back(text_message);
+
+   text_message = new TextMessage ("310-290-1666", "999-234-5948", "Hello, can you hear me");
+   smartPhone_Accounts ["310-290-1666"].push_back(text_message);
 
 }
 
 
 void SmartCarrier::startService()
 {
+   do
+   {
 
+   }
+   while (true);
 }
 
 
@@ -224,6 +382,135 @@ void SmartCarrier::disconnectAccount()
 void SmartCarrier::stopService()
 {
 
+}
+
+
+
+
+
+//-----------------------class Message definition----------------
+Message::Message():sender_PhoneNumber(""), receiver_PhoneNumber(""){}
+
+Message::Message(string senderPN, string receiverPN):sender_PhoneNumber(senderPN),receiver_PhoneNumber(receiverPN){}
+
+Message::~Message()
+{
+
+}
+
+
+bool Message::operator==(const Message &another) const
+{
+   return (this->sender_PhoneNumber == another.sender_PhoneNumber
+           && this->receiver_PhoneNumber == another.receiver_PhoneNumber);
+}
+
+
+ostream & operator<< (ostream &os, const Message &object)
+{
+   os << object.sender_PhoneNumber << object.receiver_PhoneNumber;
+
+   return os;
+}
+
+
+
+
+
+
+
+//----------------------class TextMessage definition-----------------------
+TextMessage::TextMessage():Message(),textMessage(""){}
+
+TextMessage::TextMessage(string senderPN, string receiverPN, string textMessage):
+Message(senderPN, receiverPN), textMessage(textMessage){}
+
+TextMessage::~TextMessage()
+{
+
+}
+
+
+void TextMessage::computeCharge()
+{
+
+}
+
+
+void TextMessage::setTextMessage(string t_m)
+{
+   this->textMessage = t_m;
+}
+
+
+string TextMessage::getTextMessage()
+{
+   return textMessage;
+}
+
+
+
+
+//-------------------class VoiceMessage definition-------------------
+VoiceMessage::VoiceMessage():voiceMessage(0){}
+
+VoiceMessage::VoiceMessage(string senderPN, string receiverPN, int voiceMessage):
+Message(senderPN,receiverPN), voiceMessage(voiceMessage){}
+
+VoiceMessage::~VoiceMessage()
+{
+
+}
+
+
+void VoiceMessage::computeCharge()
+{
+
+}
+
+
+void VoiceMessage::setVoiceMessage(int v_m)
+{
+   this->voiceMessage = v_m;
+}
+
+
+int VoiceMessage::getVoiceMessage()
+{
+   return voiceMessage;
+}
+
+
+
+
+
+//----------------class MediaMessage definition----------------------
+MediaMessage::MediaMessage():mediaMessage(0){}
+
+MediaMessage::MediaMessage(string senderPN, string receiverPN, int mediaMessage):
+Message(senderPN, receiverPN), mediaMessage(mediaMessage){}
+
+MediaMessage::~MediaMessage()
+{
+
+}
+
+
+void MediaMessage::computeCharge()
+{
+
+}
+
+
+void MediaMessage::setMediaMessage(int m_m)
+{
+   this->mediaMessage = m_m;
+}
+
+
+int MediaMessage::getMediaMessage()
+{
+   return mediaMessage;
 }
 
 
