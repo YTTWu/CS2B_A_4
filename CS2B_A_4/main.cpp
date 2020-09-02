@@ -26,7 +26,8 @@ public:
    Message(string senderPN, string receiverPN);
    ~Message();
 
-   virtual void computeCharge();
+   virtual double computeCharge();
+
    bool operator== (const Message & right) const;
 
    friend ostream & operator<< (ostream &, const Message &);
@@ -84,7 +85,7 @@ public:
    TextMessage(string senderPN, string receiverPN, string textMessage);
    ~TextMessage();
 
-   virtual void computeCharge();
+   virtual double computeCharge(int count);
    void setTextMessage(string t_m);
    string getTextMessage();
 
@@ -104,7 +105,7 @@ public:
    VoiceMessage(string senderPN, string receiverPN, int voiceMessage);
    ~VoiceMessage();
 
-   virtual void computeCharge();
+   virtual double computeCharge(int count);
    void setVoiceMessage(int v_m);
    int getVoiceMessage();
 
@@ -123,7 +124,7 @@ public:
    MediaMessage(string senderPN, string receiverPN, int mediaMessage);
    ~MediaMessage();
 
-   virtual void computeCharge();
+   virtual double computeCharge(int count);
    void setMediaMessage(int m_m);
    int getMediaMessage();
 
@@ -138,7 +139,8 @@ public:
 int main ()
 {
 
-
+   SmartCarrier *p = new SmartCarrier("At&t");
+   p->startService();
 }
 
 
@@ -337,7 +339,30 @@ void SmartCarrier::startService()
 {
    do
    {
+      char userInput;
+      initalizeMap();
+      Menu();
+      cin >> userInput;
 
+      switch (userInput) {
+         case '1':
+            listAll();
+            break;
+         case '2':
+            searchMessage();
+            break;
+         case '3':
+            eraseMessage();
+            break;
+         case '4':
+            disconnectAccount();
+            break;
+         case '5':
+
+            break;
+         default:
+            break;
+      }
    }
    while (true);
 }
@@ -345,7 +370,11 @@ void SmartCarrier::startService()
 
 void SmartCarrier::Menu()
 {
-
+   cout << "1. List summary of message usages/charges for all accounts" << endl;
+   cout << "2. Search a message from an account" << endl;
+   cout << "3. Erase a message from an account" << endl;
+   cout << "4. Disconnect an account" << endl;
+   cout << "5. Quit" << endl;
 }
 
 
@@ -357,7 +386,64 @@ void SmartCarrier::getChoice()
 
 void SmartCarrier::listAll()
 {
+   cout << "Phone number          " << "Total messages  " << "  Text  " << "  voice  " << "  Media  " << "  Total" << endl;
 
+   map<string, vector<Message*> >::iterator m_iter;
+   vector<Message*>::iterator v_iter;
+
+   TextMessage *text_Message = NULL;
+   VoiceMessage *voice_Message = NULL;
+   MediaMessage *media_Message = NULL;
+
+   int text_message_count = 0;
+   int voice_message_count = 0;
+   int media_message_count = 0;
+   int total_message = 0;
+   int total_charge = 0;
+
+
+
+   for(m_iter = smartPhone_Accounts.begin(); m_iter != smartPhone_Accounts.end(); m_iter++)
+   {
+      cout << m_iter->first << "  ";
+
+
+      for(v_iter = m_iter->second.begin(); v_iter != m_iter->second.end(); v_iter++)
+      {
+         if((text_Message = dynamic_cast<TextMessage*>(*v_iter)))
+         {
+            text_message_count++;
+         }
+         else if((voice_Message = dynamic_cast<VoiceMessage*>(*v_iter)))
+         {
+            voice_message_count++;
+         }
+         else if((media_Message = dynamic_cast<MediaMessage*>(*v_iter)))
+         {
+            media_message_count++;
+         }
+
+
+      }
+
+      
+      total_message = text_message_count + voice_message_count + media_message_count;
+      total_charge += text_Message->computeCharge(text_message_count);
+      total_charge += voice_Message->computeCharge(voice_message_count);
+      total_charge += media_Message->computeCharge(media_message_count);
+
+
+
+      cout << total_message << "    " << text_message_count << "    "
+      << voice_message_count << "    " << media_message_count << "    " << total_charge << endl;
+
+      total_message = 0;
+      total_charge = 0;
+      text_message_count = 0;
+      voice_message_count = 0;
+      media_message_count= 0;
+
+   }
 }
 
 
@@ -413,7 +499,10 @@ ostream & operator<< (ostream &os, const Message &object)
    return os;
 }
 
-
+double Message::computeCharge()
+{
+   return 0.0;
+}
 
 
 
@@ -431,8 +520,13 @@ TextMessage::~TextMessage()
 }
 
 
-void TextMessage::computeCharge()
+double TextMessage::computeCharge(int count)
 {
+   double charge;
+
+   charge = count * 0.20;
+
+   return charge;
 
 }
 
@@ -463,9 +557,13 @@ VoiceMessage::~VoiceMessage()
 }
 
 
-void VoiceMessage::computeCharge()
+double VoiceMessage::computeCharge(int count)
 {
+   int charge;
 
+   charge = count * 0.015;
+
+   return charge;
 }
 
 
@@ -496,9 +594,13 @@ MediaMessage::~MediaMessage()
 }
 
 
-void MediaMessage::computeCharge()
+double MediaMessage::computeCharge(int count)
 {
+   int charge;
 
+   charge = count * 0.10;
+
+   return charge;
 }
 
 
