@@ -496,38 +496,19 @@ void SmartCarrier::searchMessage()
                {
                   cout << *p_text;
                }
-               else
-               {
-                  throw "Wrong Receiver Number.";
-               }
             }
-            else
-            {
-               throw " No Message Found.";
-            }
-
          }
 
          else if(messageType[0] == 'v' || messageType[0] == 'V')
          {
             VoiceMessage temp = VoiceMessage(sender, receiver, 0);
-            if((p_voice = dynamic_cast<VoiceMessage*>(*v_iter)) != NULL)
+            if((p_voice = dynamic_cast<VoiceMessage*>(*v_iter))!= NULL)
             {
                if(*p_voice == temp)
                {
                   cout << *p_voice;
                }
-               else
-               {
-                  throw "Wrong Receiver Number.";
-               }
             }
-            else
-            {
-               throw " No Message Found.";
-            }
-
-
          }
 
          else if(messageType[0] == 'm' || messageType[0] == 'M')
@@ -539,21 +520,14 @@ void SmartCarrier::searchMessage()
                {
                   cout << *p_media;
                }
-               else
-               {
-                  throw "Wrong Receiver Number.";
-               }
             }
-            else
-            {
-               throw " No Message Found.";
-            }
-
          }
          else
          {
             throw "No Type Match Found.";
          }
+
+
 
       }
 
