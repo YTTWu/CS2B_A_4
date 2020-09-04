@@ -30,7 +30,7 @@ public:
 
    bool operator== (const Message & right) const;
 
-   friend ostream & operator<< (ostream &, const Message &);
+
 
 
 
@@ -89,7 +89,7 @@ public:
    void setTextMessage(string t_m);
    string getTextMessage();
 
-   //friend ostream & operator<< (ostream &, const TextMessage &);
+   friend ostream & operator<< (ostream &, const TextMessage &);
 
 };
 
@@ -109,7 +109,7 @@ public:
    void setVoiceMessage(int v_m);
    int getVoiceMessage();
 
-   //friend ostream & operator<< (ostream &, const VoiceMessage &);
+   friend ostream & operator<< (ostream &, const VoiceMessage &);
 };
 
 
@@ -128,7 +128,7 @@ public:
    void setMediaMessage(int m_m);
    int getMediaMessage();
 
-   //friend ostream & operator<< (ostream &, const MediaMessage &);
+   friend ostream & operator<< (ostream &, const MediaMessage &);
 
 };
 
@@ -183,7 +183,7 @@ void SmartCarrier::initalizeMap()
 
    //650-267-1289
    text_message = new TextMessage("650-267-1289", "650-345-9001",
-                                 "Do you want to learn how to program in C++?");
+                                  "Do you want to learn how to program in C++?");
    smartPhone_Accounts["650-267-1289"].push_back(text_message);
 
    voice_message = new VoiceMessage("650-267-1289", "650-322-865", 178);
@@ -386,7 +386,7 @@ void SmartCarrier::getChoice()
 
 void SmartCarrier::listAll()
 {
-   cout << "Phone number          " << "Total messages  " << "  Text  " << "  voice  " << "  Media  " << "  Total" << endl;
+   cout << "Phone number          " << "Total messages  " << "  Text  " << "  Voice  " << "  Media  " << "  Total" << endl;
 
    map<string, vector<Message*> >::iterator m_iter;
    vector<Message*>::iterator v_iter;
@@ -457,7 +457,112 @@ void SmartCarrier::listAll()
 
 void SmartCarrier::searchMessage()
 {
+   string sender, receiver, messageType;
+   map<string, vector<Message*> >::iterator m_iter;
+   vector<Message*>::iterator v_iter;
 
+   cin.ignore();
+   cout << "Enter the sender number: ";
+   getline(cin, sender);
+
+   cout << "Enter the receiver number: ";
+   getline(cin, receiver);
+
+   cout << "Enter your message type: ";
+   getline(cin, messageType);
+
+   TextMessage *p_text;
+   VoiceMessage *p_voice;
+   MediaMessage *p_media;
+
+
+
+   try
+   {
+      m_iter = smartPhone_Accounts.find(sender);
+      if(m_iter == smartPhone_Accounts.end())
+      {
+         throw "No Account Found.";
+      }
+
+      for(v_iter = m_iter->second.begin(); v_iter != m_iter->second.end(); v_iter++)
+      {
+         if(messageType[0] == 't' || messageType[0] == 'T')
+         {
+            TextMessage temp = TextMessage(sender, receiver, "");
+            if((p_text = dynamic_cast<TextMessage*>(*v_iter)) != NULL)
+            {
+               if(*p_text == temp)
+               {
+                  cout << *p_text;
+               }
+               else
+               {
+                  throw "Wrong Receiver Number.";
+               }
+            }
+            else
+            {
+               throw " No Message Found.";
+            }
+
+         }
+
+         else if(messageType[0] == 'v' || messageType[0] == 'V')
+         {
+            VoiceMessage temp = VoiceMessage(sender, receiver, 0);
+            if((p_voice = dynamic_cast<VoiceMessage*>(*v_iter)) != NULL)
+            {
+               if(*p_voice == temp)
+               {
+                  cout << *p_voice;
+               }
+               else
+               {
+                  throw "Wrong Receiver Number.";
+               }
+            }
+            else
+            {
+               throw " No Message Found.";
+            }
+
+
+         }
+
+         else if(messageType[0] == 'm' || messageType[0] == 'M')
+         {
+            MediaMessage temp = MediaMessage(sender, receiver, 0);
+            if((p_media = dynamic_cast<MediaMessage*>(*v_iter)) != NULL)
+            {
+               if(*p_media == temp)
+               {
+                  cout << *p_media;
+               }
+               else
+               {
+                  throw "Wrong Receiver Number.";
+               }
+            }
+            else
+            {
+               throw " No Message Found.";
+            }
+
+         }
+         else
+         {
+            throw "No Type Match Found.";
+         }
+
+      }
+
+
+   }
+   catch (const char* e)
+   {
+      cout << e << endl << endl;
+   }
 }
 
 
@@ -500,12 +605,6 @@ bool Message::operator==(const Message &another) const
 }
 
 
-ostream & operator<< (ostream &os, const Message &object)
-{
-   os << object.sender_PhoneNumber << object.receiver_PhoneNumber;
-
-   return os;
-}
 
 double Message::computeCharge()
 {
@@ -551,6 +650,12 @@ string TextMessage::getTextMessage()
 }
 
 
+ostream & operator<< (ostream &os, const TextMessage &object)
+{
+   os << object.textMessage << endl << endl;
+
+   return os;
+}
 
 
 //-------------------class VoiceMessage definition-------------------
@@ -587,7 +692,12 @@ int VoiceMessage::getVoiceMessage()
 }
 
 
+ostream & operator<< (ostream &os, const VoiceMessage &object)
+{
+   os << object.voiceMessage << "second" << endl << endl;
 
+   return os;
+}
 
 
 //----------------class MediaMessage definition----------------------
@@ -624,4 +734,9 @@ int MediaMessage::getMediaMessage()
 }
 
 
+ostream & operator<< (ostream &os, const MediaMessage &object)
+{
+   os << object.mediaMessage << "MB"  <<  endl << endl;
 
+   return os;
+}
